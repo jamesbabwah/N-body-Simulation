@@ -1,0 +1,16 @@
+#vscode files
+.vscode
+
+#executables and binaries
+bin/*.exe
+libs/*.lib
+*.bat
+
+#ninja files
+.ninja_*
+build.ninja
+
+#cmake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
