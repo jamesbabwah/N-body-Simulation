@@ -15,9 +15,9 @@ project(NBody
 set(PROJECT_SOURCES
         src/main.cpp
         src/ArgParser.cpp
-        src/Logger.cpp
+        src/Timer.cpp
         include/ArgParser.hpp
-        include/Logger.hpp
+        include/Timer.hpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

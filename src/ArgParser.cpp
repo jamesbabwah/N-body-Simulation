@@ -4,6 +4,12 @@
 
 ArgParser::ArgParser(int argc, char* argv[])
 {
+    if (argc < 2)
+    {
+        std::cout << "Please specify number of particles (-n) and file containing particle data (-i)" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     std::string arg = argv[1];
 
     // Display help info
