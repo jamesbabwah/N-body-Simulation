@@ -60,12 +60,56 @@ ArgParser::ArgParser(int argc, char* argv[])
                 exit(EXIT_FAILURE);
             }
         }
+        else if(arg == "-h") // Get window height (optional since there's a default value)
+        {
+            if((i + 1) < argc)
+            {
+                m_Timestep = std::stoi(argv[i + 1]);
+                i++;
+            }
+            else
+            {
+                std::cout << "Please specify the window height after using the -h flag" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(arg == "-w") // Get window height (optional since there's a default value)
+        {
+            if((i + 1) < argc)
+            {
+                m_Timestep = std::stoi(argv[i + 1]);
+                i++;
+            }
+            else
+            {
+                std::cout << "Please specify the window height after using the -w flag" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(arg == "-t") // Get timestep (optional since there's a default value)
+        {
+            if((i + 1) < argc)
+            {
+                m_Timestep = std::stod(argv[i + 1]);
+                i++;
+            }
+            else
+            {
+                std::cout << "Please specify the timestep after using the -t flag" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
         else if(arg == "-i") // Get file for inital data on particles
         {
             if((i + 1) < argc)
             {
                 std::string filepath = argv[i + 1];
                 m_ParticleFile = std::ifstream(filepath);
+                if(!m_ParticleFile.is_open())
+                {
+                    std::cout << "The file " << filepath << " could not be opened" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
                 i++;
             }
             else
@@ -102,11 +146,21 @@ double ArgParser::getGravitationalStrength()
     return m_GravitationalStrength;
 }
 
-double ArgParser::GetTimestep()
+double ArgParser::getTimestep()
 {
     return m_Timestep;
 }
 bool ArgParser::getDisplayDiagnositics()
 {
     return m_DisplayDiagnositics;
+}
+
+int ArgParser::getWindowHeight()
+{
+    return m_WindowHeight;
+}
+
+int ArgParser::getWindowWidth()
+{
+    return m_WindowWidth;
 }
