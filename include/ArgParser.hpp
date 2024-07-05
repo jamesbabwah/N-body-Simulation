@@ -25,7 +25,7 @@ private:
     bool          m_DisplayDiagnositics = false;           //Display Energy and Momentum values on screen
     int           m_WindowHeight = 600;                    //Inital Window Height
     int           m_WindowWidth = 600;                     //Inital Window Width
-    std::ifstream m_ParticleFile;                          //File containing inital data of particles
+    std::string m_ParticleFilePath;                        //File containing inital data of particles
 };
 
 #endif //ARGPARSER_HPP

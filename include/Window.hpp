@@ -5,24 +5,28 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-#include "WindowEventHandler.hpp"
 
 // Simple wrapper for GLFWWindow
 class Window
 {
 public:
-    Window(int height, int width, const char* title, int xpos, int ypos);
+    Window(int height, int width, const char* title, int xpos = 0, int ypos = 0);
+    Window() = default;
     ~Window();
 
+    GLFWwindow* GetWindow();
+    int GetHeight();
+    int GetWidth();
+    int GetXPos();
+    int GetYPos();
+    bool IsFocused();
+    bool IsIconified();
+    bool IsMaximized();
+    bool IsOpen();
 
-private:
-    WindowEventHandler m_EventHandler;
-    GLFWwindow* m_Window; // Pointer for underlying window
-    int m_Height, m_Width;
-    int m_x, m_y; // Window coordinates
-    bool m_Focused, m_Iconified, m_Maximized;
+    void Update();
 
-    //Window Events
+    //Window Events - Received from Application
     void OnMove(int xpos, int ypos);
     void OnResize(int width, int height);
     void OnClose();
@@ -33,7 +37,14 @@ private:
     void OnFramebufferResize(int width, int height);
     void OnContentScale(float xscale, float yscale);
 
-    friend WindowEventHandler;
+private:
+    GLFWwindow* m_Window; // Pointer for underlying window
+    int m_Height, m_Width;
+    int m_xPos, m_yPos; // Window coordinates
+    bool m_Focused, m_Iconified, m_Maximized;
+    bool m_Opened;
+
+
 };
 
 #endif //WINDOW_HPP

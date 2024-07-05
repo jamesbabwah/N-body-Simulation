@@ -1,18 +1,13 @@
 #include <iostream>
+#include "Application.hpp"
 #include "ArgParser.hpp"
-#include "Timer.hpp"
 
 int main(int argc, char* argv[])
 {
-    Timer t;
-
-    t.Init();
-    while (t.GetElaspedTime() < 5)
-    {
-        t.Tick();
-        std::cout << "Time: " << t.GetElaspedTime() << " dt: " << t.GetDeltaTime() << std::endl;
-
-    }
+    ArgParser args(argc, argv);
+    Application::Init();
+    Application a = Application(args);
+    a.MainLoop();
 
 
 }

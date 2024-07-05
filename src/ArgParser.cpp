@@ -60,6 +60,10 @@ ArgParser::ArgParser(int argc, char* argv[])
                 exit(EXIT_FAILURE);
             }
         }
+        else if(arg == "--display-diagnostics" || arg == "-dd") // will display energy and momentum values in the corner of the screen if true
+        {
+            m_DisplayDiagnositics == true;
+        }
         else if(arg == "-h") // Get window height (optional since there's a default value)
         {
             if((i + 1) < argc)
@@ -86,30 +90,12 @@ ArgParser::ArgParser(int argc, char* argv[])
                 exit(EXIT_FAILURE);
             }
         }
-        else if(arg == "-t") // Get timestep (optional since there's a default value)
-        {
-            if((i + 1) < argc)
-            {
-                m_Timestep = std::stod(argv[i + 1]);
-                i++;
-            }
-            else
-            {
-                std::cout << "Please specify the timestep after using the -t flag" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-        }
         else if(arg == "-i") // Get file for inital data on particles
         {
             if((i + 1) < argc)
             {
                 std::string filepath = argv[i + 1];
-                m_ParticleFile = std::ifstream(filepath);
-                if(!m_ParticleFile.is_open())
-                {
-                    std::cout << "The file " << filepath << " could not be opened" << std::endl;
-                    exit(EXIT_FAILURE);
-                }
+                m_ParticleFilePath = filepath;
                 i++;
             }
             else
@@ -117,10 +103,6 @@ ArgParser::ArgParser(int argc, char* argv[])
                 std::cout << "Please specify the particle data file after using the -i flag" << std::endl;
                 exit(EXIT_FAILURE);
             }
-        }
-        else if(arg == "--display-diagnostics" || arg == "-dd") // will display energy and momentum values in the corner of the screen if true
-        {
-            m_DisplayDiagnositics == true;
         }
     }
 
@@ -130,7 +112,7 @@ ArgParser::ArgParser(int argc, char* argv[])
         std::cout << "Please specify number of particles using -n flag" << std::endl;
         exit(EXIT_FAILURE);
     }
-    if(!m_ParticleFile.is_open())
+    if(m_ParticleFilePath.empty())
     {
         std::cout << "Please specify particle data file using -i flag" << std::endl;
         exit(EXIT_FAILURE);

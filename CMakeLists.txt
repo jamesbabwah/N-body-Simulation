@@ -18,10 +18,12 @@ set(PROJECT_SOURCES
         src/Timer.cpp
         src/Window.cpp
         src/WindowEventHandler.cpp
+        src/Application.cpp
         include/ArgParser.hpp
         include/Timer.hpp
         include/Window.hpp
         include/WindowEventHandler.hpp
+        include/Application.hpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

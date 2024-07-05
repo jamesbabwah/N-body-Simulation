@@ -6,49 +6,14 @@
 #include <queue>
 #include <tuple>
 
-enum class WindowEventType
-{
-    NONE = 0,
-    MOVE = 1,
-    RESIZE = 2,
-    CLOSE = 3,
-    REFRESH = 4,
-    FOCUS = 5,
-    ICONIFY = 6,
-    MAXIMIZE = 7,
-    FRAMEBUFFERRESIZE = 8,
-    CONTENTSCALE = 9,
-};
-
-struct WindowEvent
-{
-    WindowEvent(WindowEventType action); // close/refresh actions
-    WindowEvent(WindowEventType action, int param1, int param2); // moving/scaling window/content actions
-    WindowEvent(WindowEventType action, float param1, float param2); // scaling content
-    WindowEvent(WindowEventType action, bool param1); // maximize/iconify/focus actions
-    WindowEventType Action;
-
-    union WindowEventParams
-    {
-        void* placeholder; // for parameterless events (i.e. close/refresh/none)
-        std::tuple<int, int> window_position; //For moving window
-        std::tuple<int, int> window_dimensions; // For scaling window
-        bool focused; // For shifting focus between windows
-        bool iconified; // For minimizing window
-        bool maximized; // For maximizing window
-        std::tuple<int, int> framebuffer_dimensions; // For scaling framebuffer
-        std::tuple<float, float> content_scale; // For scaling content
-    } params;
-};
-
 
 class WindowEventHandler
 {
-// no clue how to do this without using a singleton
+// no clue how to do this without using a singleton (forgive me)
 public:
-    WindowEventHandler(GLFWwindow* window);
-    WindowEvent GetEvent();
-    bool HasEvents();
+    static void Init(GLFWwindow* window);
+    static WindowEventHandler* GetInstance();
+
 private:
     static void WindowPosCallback(GLFWwindow* window, int xpos, int ypos); // Callback for when window is moved
     static void WindowSizeCallback(GLFWwindow* window, int width, int height); // Callback for when window is resized
@@ -59,7 +24,13 @@ private:
     static void WindowMaximizeCallback(GLFWwindow* window, int maximized); // Callback for when window is maximized or restored
     static void FramebufferSizeCallback(GLFWwindow* window, int width, int height); // Callback for when frambuffer is resized
     static void ContentScaleCallback(GLFWwindow* window, float width, float height); // Callback for when window content is scaled
+    static void GLFWErrorCallback(int error_code, const char* description); // Callback for any glfw errors
 
-    static std::queue<WindowEvent> s_Events;
+    static void KeyCallback(GLFWwindow* window, int key, int action, int mods);
+    static void MouseKeyCallback(GLFWwindow* window, int button, int action, int mods);
+
+    static bool s_Initialized;
+    static WindowEventHandler* s_Instance;
+    static GLFWwindow* s_Window;
 };
 #endif //WINDOWEVENTHANDLER_HPP
